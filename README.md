@@ -1,6 +1,6 @@
 # React JS + .NET Core Web API + MySQL
 
-- Connect between .NET and MySQL Server
+- Has connection between .NET and MySQL Server
 
 - RESTful API 
 
