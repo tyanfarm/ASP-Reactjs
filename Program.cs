@@ -1,5 +1,6 @@
 using Newtonsoft.Json.Serialization;
 using MySql.Data.MySqlClient;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,13 @@ app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(
 
 // Quản lí các 'Route' attribute
 app.MapControllers();
+
+// Cấu hình lưu file ảnh
+app.UseStaticFiles(new StaticFileOptions {
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "Photos")),
+    RequestPath = "/Photos"
+}); 
 
 app.MapGet("/", () => "Hello World!");
 

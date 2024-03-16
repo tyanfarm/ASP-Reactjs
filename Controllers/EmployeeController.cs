@@ -9,9 +9,13 @@ namespace ASP_Reactjs.Controllers {
     [ApiController]
     public class EmployeeController : ControllerBase {
         private readonly IConfiguration _configuration;
+        
+        // Thông tin thư mục gốc, tên môi trường, ...
+        private readonly IWebHostEnvironment _environment;
 
-        public EmployeeController(IConfiguration configuration) {
+        public EmployeeController(IConfiguration configuration, IWebHostEnvironment environment) {
             _configuration = configuration;
+            _environment = environment;
         }
 
         [HttpGet]
@@ -158,6 +162,27 @@ namespace ASP_Reactjs.Controllers {
             }
             
             return new JsonResult("Deleted Successfully");
+        }
+
+        [Route("SaveFile")]
+        [HttpPost]
+        public JsonResult SaveFile() {
+            try {
+                var httpRequest = Request.Form;
+                var postedFile = httpRequest.Files[0];
+                string filename = postedFile.FileName;
+                var physicalPath = _environment.ContentRootPath + "/Photos/" + filename;
+
+                using (var stream = new FileStream(physicalPath, FileMode.Create)) {
+                    postedFile.CopyTo(stream);
+                }
+
+                return new JsonResult(filename);
+
+            }
+            catch (Exception) {
+                return new JsonResult("anonymous.png");
+            }
         }
     }
 }
