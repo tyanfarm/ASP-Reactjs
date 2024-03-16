@@ -23,6 +23,7 @@ var app = builder.Build();
 // Enable CORS
 app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
+// Quản lí các 'Route' attribute
 app.MapControllers();
 
 app.MapGet("/", () => "Hello World!");
