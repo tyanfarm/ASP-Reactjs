@@ -7,17 +7,19 @@ using ASP_Reactjs.Models;
 namespace ASP_Reactjs.Controllers {
     [Route("api/[controller]")]
     [ApiController]
-    public class DepartmentController : ControllerBase {
+    public class EmployeeController : ControllerBase {
         private readonly IConfiguration _configuration;
 
-        public DepartmentController(IConfiguration configuration) {
+        public EmployeeController(IConfiguration configuration) {
             _configuration = configuration;
         }
 
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @"SELECT DepartmentID, DepartmentName from Department";
+            string query = @"SELECT ID, employeeName, Department,
+                            DATE_FORMAT(DateOfJoining,'%Y-%m-%d') AS DateOfJoining, PhotoFile 
+                            FROM employee";
 
             DataTable table = new DataTable();
 
@@ -45,9 +47,10 @@ namespace ASP_Reactjs.Controllers {
         }
 
         [HttpPost]
-        public JsonResult Post(Department department)
+        public JsonResult Post(Employee employee)
         {
-            string query = @"INSERT INTO Department (DepartmentName) VALUES (@DepartmentName);";
+            string query = @"INSERT INTO employee (employeeName, Department, DateOfJoining, PhotoFile) 
+                            VALUES (@employeeName, @Department, @DateOfJoining, @PhotoFile)";
 
             DataTable table = new DataTable();
 
@@ -63,7 +66,10 @@ namespace ASP_Reactjs.Controllers {
                 using (MySqlCommand myCommand = new MySqlCommand(query, myConnection))
                 {
                     // Add variable
-                    myCommand.Parameters.AddWithValue("@DepartmentName", department.DepartmentName);
+                    myCommand.Parameters.AddWithValue("@employeeName", employee.EmployeeName);
+                    myCommand.Parameters.AddWithValue("@Department", employee.Department);
+                    myCommand.Parameters.AddWithValue("@DateOfJoining", employee.DateOfJoining);
+                    myCommand.Parameters.AddWithValue("@PhotoFile", employee.PhotoFile);
 
                     myReader = myCommand.ExecuteReader();
 
@@ -78,11 +84,14 @@ namespace ASP_Reactjs.Controllers {
         }
 
         [HttpPut]
-        public JsonResult Put(Department department)
+        public JsonResult Put(Employee employee)
         {
-            string query = @"UPDATE Department 
-                            SET DepartmentName = @DepartmentName
-                            WHERE DepartmentID = @DepartmentID";
+            string query = @"UPDATE employee 
+                            SET employeeName = @employeeName,
+                                Department = @Department,
+                                DateOfJoining = @DateOfJoining,
+                                PhotoFile = @PhotoFile
+                            WHERE ID = @employeeID";
 
             DataTable table = new DataTable();
 
@@ -98,8 +107,11 @@ namespace ASP_Reactjs.Controllers {
                 using (MySqlCommand myCommand = new MySqlCommand(query, myConnection))
                 {
                     // Add variable
-                    myCommand.Parameters.AddWithValue("@DepartmentName", department.DepartmentName);
-                    myCommand.Parameters.AddWithValue("@DepartmentID", department.DepartmentID);
+                    myCommand.Parameters.AddWithValue("@employeeID", employee.EmployeeId);
+                    myCommand.Parameters.AddWithValue("@employeeName", employee.EmployeeName);
+                    myCommand.Parameters.AddWithValue("@Department", employee.Department);
+                    myCommand.Parameters.AddWithValue("@DateOfJoining", employee.DateOfJoining);
+                    myCommand.Parameters.AddWithValue("@PhotoFile", employee.PhotoFile);
 
                     myReader = myCommand.ExecuteReader();
 
@@ -117,8 +129,8 @@ namespace ASP_Reactjs.Controllers {
         [HttpDelete("{id}")]
         public JsonResult Delete(int id)
         {
-            string query = @"DELETE FROM Department
-                            WHERE DepartmentID = @DepartmentID";
+            string query = @"DELETE FROM employee
+                            WHERE ID = @employeeID";
 
             DataTable table = new DataTable();
 
@@ -134,7 +146,7 @@ namespace ASP_Reactjs.Controllers {
                 using (MySqlCommand myCommand = new MySqlCommand(query, myConnection))
                 {
                     // Add variable
-                    myCommand.Parameters.AddWithValue("@DepartmentID", id);
+                    myCommand.Parameters.AddWithValue("@employeeID", id);
 
                     myReader = myCommand.ExecuteReader();
 

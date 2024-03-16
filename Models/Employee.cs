@@ -4,7 +4,7 @@ namespace ASP_Reactjs.Models {
 
         public string? EmployeeName {get; set;}
 
-        public string? eDepartment {get; set;}
+        public string? Department {get; set;}
 
         public string DateOfJoining {get; set;}
 
