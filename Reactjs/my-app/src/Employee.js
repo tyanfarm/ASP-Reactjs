@@ -254,6 +254,7 @@ export class Employee extends Component{
             <select className="form-select"
             onChange={this.changeDepartment}
             value={Department}>
+                <option value="--None--">--None--</option>
                 {departments.map(dep=><option key={dep.DepartmentID}>
                     {dep.DepartmentName}
                 </option>)}
