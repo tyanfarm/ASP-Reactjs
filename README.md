@@ -2,7 +2,7 @@
 
 - Has connection between .NET and MySQL Server
 
-- RESTful API 
+- REST API 
 
 - User can upload image and it will save in my computer
 

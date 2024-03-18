@@ -26,7 +26,7 @@ function App() {
               </NavLink>
             </li>
             <li className="nav-item m-1">
-              <NavLink className="btn btn-light btn-outline-primary" to="/employee">
+              <NavLink className="btn btn-light btn-outline-primary" to="/employee" href="/employee">
                 Employee
               </NavLink>
             </li>
